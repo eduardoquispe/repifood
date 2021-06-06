@@ -1,0 +1,20 @@
+.Sidebar {
+  .pro-sidebar {
+    min-width: 200px;
+    width: 210px;
+    z-index: 1;
+  }
+  .pro-sidebar.collapsed {
+    width: 80px;
+    min-width: 80px;
+  }
+  .pro-sidebar-content {
+    margin-top: 50px;
+  }
+  .pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item {
+    padding: 8px 20px 8px 15px;
+  }
+  .pro-sidebar > .pro-sidebar-inner {
+    background-color: #252932;
+  }
+}
