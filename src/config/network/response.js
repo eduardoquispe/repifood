@@ -1,19 +1,28 @@
 import { Notify } from "notiflix"
+import { STATUS_OK } from "../constants";
 
-const error = (res) => {
-  if (res.response !== undefined) {
-    if(res.response.data.status)
-    {
-      Notify.failure(res.response.data.msg);
-      return
+const error = (res = null, msg = null) => {
+  if(res) {
+    if (res.response !== undefined) {
+      if(res.response.data.status)
+      {
+        Notify.failure(res.response.data.msg);
+        return
+      }
+    } else {
+      Notify.failure('Opps... Ocurrió un error inesperado.');
     }
   } else {
-    Notify.failure('Opps... Ocurrió un error inesperado.');
+    if(msg) {
+      Notify.failure(msg);
+    } else {
+      Notify.failure('Opps... Ocurrió un error inesperado.');
+    }
   }
 }
 
 const success = (res) => {
-  if(res.status === 2 && res.msg) {
+  if(res.status === STATUS_OK && res.msg) {
     Notify.success(res.msg);
   } else {
     Notify.success('Realizado con exito');

@@ -7,9 +7,9 @@ import {
   SidebarContent,
 } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
-import { FaTachometerAlt, FaGem, FaList, FaPalette } from 'react-icons/fa';
 import 'react-pro-sidebar/dist/css/styles.css';
 import './Sidebar.scss';
+import routes from '../../../routes/routes';
 
 const Sidebar = ({ collapsed, toggled, handleToggleSidebar }) => {
   return (
@@ -17,32 +17,27 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar }) => {
       <ProSidebar
         collapsed={collapsed}
         toggled={toggled}
-        breakPoint="md"
-        color="red"
+        breakPoint="sm"
+        width={200}
         onToggle={handleToggleSidebar}
       >
         <SidebarContent>
-          <Menu>
-            <MenuItem
-              icon={<FaTachometerAlt />}
-            >
-              <Link to="/">Dashboard</Link>
-            </MenuItem>
-            <MenuItem icon={<FaGem />}>
-              <Link to="/clientes">Clientes</Link>
-            </MenuItem>
-            <MenuItem icon={<FaGem />}>
-              <Link to="/lotes">Lotes</Link>
-            </MenuItem>
-            <MenuItem icon={<FaPalette />}>
-              <Link to="/pedidos">Pedidos</Link>
-            </MenuItem>
-          </Menu>
-          <Menu iconShape="circle">
-            <SubMenu title={'Menu'} icon={<FaList />}>
-              <MenuItem>Menu 1 </MenuItem>
-              <MenuItem>Menu 2 </MenuItem>
-            </SubMenu>
+          <Menu popperArrow={true}>
+            {routes.map((route, index) => {
+              if(!route.subItems) {
+                return <MenuItem key={route.url} icon={route.icon}>
+                  <Link to={`${route.url}`}>{route.title}</Link>
+                </MenuItem>
+              } else {
+                return <SubMenu title={route.title} key={route.url} icon={route.icon}>
+                  {route.subItems.map((subitem, index) => (
+                    <MenuItem key={subitem.url} icon={subitem.icon}>
+                      <Link to={`${subitem.url}`}>{subitem.title}</Link>
+                    </MenuItem>
+                  ))}
+                </SubMenu>
+              }
+            })}
           </Menu>
         </SidebarContent>
       </ProSidebar>

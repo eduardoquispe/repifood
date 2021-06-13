@@ -33,6 +33,10 @@
     }
   }
 
+  &__left {
+    background-color: #555DFF;
+  }
+
   .form-login.ui.form {
     padding: 40px;
     [class*="equal width"].fields, .fields {

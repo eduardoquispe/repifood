@@ -1,15 +1,21 @@
-import './Header.scss';
 import { FaBars, FaPowerOff, FaUserCircle } from 'react-icons/fa';
 import { useState } from 'react';
 import ModalUsuario from '../../Usuario/ModalUsuario';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../actions/authActions';
 import Notiflix from 'notiflix';
+import LogoHeader from '../../../assets/img/layout/logo_header.png';
+import './Header.scss';
+import { getDataOperador } from '../../../actions/operadorActions';
 
-const Header = ({ handleCollapsedChange }) => {
+const Header = ({ handleCollapsedChange, handleToggleSidebar }) => {
 
   const [open, setOpen] = useState(false)
   const dispatch = useDispatch();
+
+  const handleShowOperador = () => {
+    dispatch(getDataOperador(setOpen));
+  }
 
   const handleLogout = () => {
     Notiflix.Confirm.show(
@@ -27,18 +33,24 @@ const Header = ({ handleCollapsedChange }) => {
     <>
     <nav className="nav">
       <div className="nav-content ui menu">
-        <div className="nav-content left">
+        <div className="nav-content menu left">
           <div className="btn-toggle ui item" onClick={() => handleCollapsedChange()}>
             <FaBars />
           </div>
+          <div className="btn-toggle ui item responsive" onClick={() => handleToggleSidebar()}>
+            <FaBars />
+          </div>
+          <div className="ui item">
+            <img className="app-logo" src={LogoHeader} alt="logo" />
+          </div>
         </div>
         <div className="nav-content right menu colhidden">
-          <div className="ui item" onClick={() => setOpen(true)}>
+          <div className="ui item item--user" onClick={handleShowOperador}>
             <p className="name-user">
               <FaUserCircle />&nbsp;&nbsp;Eduardo Quispe Huancahuari
             </p>
           </div>
-          <div className="btn-toggle ui item" onClick={() => handleLogout()}>
+          <div className="power-off ui item" onClick={() => handleLogout()}>
             <FaPowerOff />
           </div>
         </div>

@@ -1,72 +1,45 @@
-import { Button, Divider, Form, Input, Modal } from "semantic-ui-react";
+import { useSelector } from "react-redux";
+import { Button, Divider, Modal, Grid } from "semantic-ui-react";
+import FormularioUsuario from "../FormularioUsuario";
+import './ModalUsuario.scss';
 
 const ModalUsuario = ({ open, setOpen }) => {
+
+  const { operador } = useSelector(state => state.operadores);
+
   return ( 
     <Modal
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
+      className="ModalUsuario"
     >
       <Modal.Header>Operador</Modal.Header>
       <Modal.Content>
         <Modal.Description>
-          <div className="ui form">
-            <Form.Group>
-              <Form.Field
-                id='form-input-control-first-name'
-                control={Input}
-                label='Nombres'
-                placeholder='First name'
-                disabled
-                width={6}
-              />
-              <Form.Field
-                id='form-input-control-last-name'
-                control={Input}
-                label='Apellidos'
-                placeholder='Last name'
-                disabled
-                width={6}
-              />
-            </Form.Group>
-          </div>
+          <Grid columns={3}>
+            <Grid.Column>
+              <b>Nombre: {operador.nombres}</b>
+            </Grid.Column>
+            <Grid.Column>
+              <b>Apellidos: {operador.apellidos}</b>
+            </Grid.Column>
+            <Grid.Column>
+              <b>DNI: {operador.dni}</b>
+            </Grid.Column>
+          </Grid>
           <h4>Acceso al sistema</h4>
           <Divider />
-          <Form>
-            <Form.Group>
-              <Form.Field
-                id='form-input-control-first-name'
-                control={Input}
-                label='Usuario'
-                width={6}
-              />
-              <Form.Field
-                id='form-input-control-last-name'
-                control={Input}
-                label='Contraseña'
-                width={6}
-              />
-              <Form.Field
-                id='form-input-control-last-name'
-                control={Input}
-                label='Repetir contraseña'
-                width={6}
-              />
-            </Form.Group>
-          </Form>
+          <FormularioUsuario />
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
-        <Button color='black' onClick={() => setOpen(false)}>
+        <Button onClick={() => setOpen(false)}>
           Cancelar
         </Button>
-        <Button
-          content="Guardar"
-          labelPosition='right'
-          icon='checkmark'
-          onClick={() => setOpen(false)}
-          positive
-        />
+        <Button primary onClick={() => setOpen(false)}>
+          Guardar
+        </Button>
       </Modal.Actions>
     </Modal>
   );

@@ -1,7 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import "@progress/kendo-theme-default/dist/all.scss";
 import 'semantic-ui-css/semantic.min.css';
-import '@progress/kendo-theme-default/dist/all.css';
+import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
+import {
+  IntlProvider,
+  load,
+  LocalizationProvider,
+  loadMessages,
+} from "@progress/kendo-react-intl";
 import './index.scss';
 import App from './App';
 
@@ -10,7 +17,11 @@ import store from "./store";
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <LocalizationProvider language="es-ES">
+      <IntlProvider locale="es">
+        <App />
+      </IntlProvider>
+    </LocalizationProvider>
   </Provider>,
   document.getElementById('root')
 );

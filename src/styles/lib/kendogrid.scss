@@ -1,0 +1,31 @@
+.k-widget.k-grid {
+  font-size: 1rem;
+  color: #666666;
+  font-weight: 500;
+  .k-grid-header {
+    .k-header {
+      color: #999;
+      font-weight: 500;
+    }
+  }
+  .k-grid-container {
+    .k-master-row, .k-master-row.k-alt {
+      background-color: #fff;
+      &:hover {
+        background-color: #EDEDED !important;
+      }
+      td {
+        border-left: 0;
+        border-bottom-width: 1px;
+        border-style: solid;
+        border-color: #e6e6e6;
+        padding: 10px 12px;
+      }
+    }
+  }
+  .k-pager-numbers .k-link.k-state-selected {
+    color: #555DFF;
+    background-color: #fff;
+  }
+}
+

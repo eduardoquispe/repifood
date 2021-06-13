@@ -2,6 +2,13 @@
 #app_content_toolbar {
   position: fixed;
   top: 50px;
-  width: calc(100% - 210px);
+  width: calc(100% - 200px);
+  border-radius: 0 !important;
   z-index: 10;
+  @media (max-width: 414px) {
+    width: 100%;
+  }
+  .ui.menu {
+    border-radius: 0;
+  }
 }

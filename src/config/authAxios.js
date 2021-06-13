@@ -1,20 +1,38 @@
 import axios from 'axios';
 import { getToken } from '../utils/authHelper';
 
-const accessToken = '';
+const accessToken = getToken();
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const authAxios = axios.create({
+let clientAxios = axios.create({
   baseURL: apiUrl,
   headers: {
     Authorization: `Bearer ${accessToken}`
   }
 })
 
-authAxios.interceptors.response.use(
-(response) => response, 
-(error) => {
-  console.log(error.message)
+clientAxios.interceptors.response.use(
+  (response) => response, 
+  (error) => {
+    console.log(error.message)
 });
 
-export default authAxios;
+export const authAxios = clientAxios;
+
+export const applyHeaders = (accessToken) => {
+  clientAxios = axios.create({
+    baseURL: apiUrl,
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  })
+}
+
+export const removeHeaders = () => {
+  clientAxios = axios.create({
+    baseURL: apiUrl,
+    headers: {
+      Authorization: null
+    }
+  })
+}

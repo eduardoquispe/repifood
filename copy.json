@@ -1,0 +1,75 @@
+{
+  "name": "rapifood",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@progress/kendo-data-query": "^1.5.5",
+    "@progress/kendo-drawing": "^1.10.1",
+    "@progress/kendo-licensing": "^1.1.4",
+    "@progress/kendo-react-animation": "^4.6.0",
+    "@progress/kendo-react-data-tools": "^4.6.0",
+    "@progress/kendo-react-dateinputs": "^4.6.0",
+    "@progress/kendo-react-dropdowns": "^4.6.0",
+    "@progress/kendo-react-grid": "^4.6.0",
+    "@progress/kendo-react-inputs": "^4.6.0",
+    "@progress/kendo-react-intl": "^4.6.0",
+    "@progress/kendo-react-treeview": "^4.6.0",
+    "@progress/kendo-theme-default": "^4.38.1",
+    "@testing-library/jest-dom": "^5.13.0",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.21.1",
+    "classnames": "^2.3.1",
+    "formik": "^2.2.9",
+    "leaflet": "^1.7.1",
+    "leaflet-draw": "^1.0.4",
+    "node-sass": "^6.0.0",
+    "notiflix": "^3.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.2.0",
+    "react-leaflet": "^3.2.0",
+    "react-leaflet-draw": "^0.19.8",
+    "react-pro-sidebar": "^0.6.0",
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "react-semantic-ui-datepickers": "^2.13.1",
+    "react-switch": "^6.0.0",
+    "redux": "^4.1.0",
+    "redux-thunk": "^2.3.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.3",
+    "web-vitals": "^1.1.2",
+    "yup": "^0.32.9"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.7.1",
+    "react-app-rewire-babel-loader": "^0.1.1",
+    "react-app-rewired": "^2.1.8"
+  }
+}

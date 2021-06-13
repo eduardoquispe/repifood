@@ -1,15 +1,13 @@
-import React, { lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
-import Main from './Main';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Header from './Header';
-import { useSelector } from 'react-redux';
-import Notiflix from 'notiflix';
+import { useDispatch, useSelector } from 'react-redux';
+import routes from '../../routes/routes';
+import './Layout.scss';
+import { validarLogin } from '../../actions/authActions';
 
-const Clientes = lazy(() => import('../../pages/Clientes'));
 const Login = lazy(() => import('../../pages/Login'));
-const Lotes = lazy(() => import('../../pages/Lotes'));
-const Pedidos = lazy(() => import('../../pages/Pedidos'));
 
 
 function Layout() {
@@ -17,48 +15,61 @@ function Layout() {
   const [toggled, setToggled] = useState(false);
 
   const { login } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
 
   const handleCollapsedChange = () => {
     setCollapsed(collapsed => !collapsed);
   };
 
-  const handleToggleSidebar = (value) => {
-    setToggled(value);
+  const handleToggleSidebar = () => {
+    setToggled(toggled => !toggled);
   };
+
+  useEffect(() => {
+    (() => {
+      dispatch(validarLogin());
+    })();
+  }, [])
 
   return (
       <Router>
-        { login ? (
+        { login === true ? (
           <div className={`app ${toggled ? 'toggled' : ''}`}>
               <Header 
                 handleCollapsedChange={handleCollapsedChange}
+                handleToggleSidebar={handleToggleSidebar}
               />
               <Sidebar
                 collapsed={collapsed}
                 toggled={toggled}
-                handleToggleSidebar={handleToggleSidebar}
               />
               <main className="content-main">
-                <Suspense fallback={() => Notiflix.Loading.pulse()}>
+                <Suspense fallback={<div></div>}>
                   <Switch>
-                    <Route path="/" exact component={Main} />
-                    <Route path="/clientes" exact component={Clientes} />
-                    <Route path="/lotes" exact component={Lotes} />
-                    <Route path="/pedidos" exact component={Pedidos} />
+                    {routes.map((route, index) => {
+                      if(!route.subItems) {
+                        return <Route key={route.url} path={`${route.url}`} exact={route.exact} component={route.component} />
+                      } else {
+                          return route.subItems.map((subitem, index) => (
+                            <Route key={route.url} path={`${subitem.url}`} exact={route.exact} component={subitem.component} />
+                          ))
+                      }
+                    })}
                     <Redirect to='/' />
                   </Switch>
                 </Suspense>
               </main>
             </div>
-          ) : (
+          ) : login === false ? (
             <>
-              <Suspense fallback={() => Notiflix.Loading.pulse()}>
+              <Suspense fallback={<div></div>}>
                 <Route path="/login" exact component={Login} />
                 <Redirect to='/login' />
               </Suspense>
             </>
+          ) : (
+            <div></div>
           )}
-        
       </Router>
   );
 }

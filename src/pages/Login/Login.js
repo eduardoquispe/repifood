@@ -8,7 +8,7 @@ const Login = () => {
     <div className="Login">
       <div className="Login__container">
         <Grid columns={2}>
-          <Grid.Column>
+          <Grid.Column className="Login__left">
             
           </Grid.Column>
           <Grid.Column>

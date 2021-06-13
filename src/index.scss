@@ -7,7 +7,15 @@ $icon-bg-color: rgba(255, 255, 255, 0.05);
 $icon-size: 35px;
 
 @import '~react-pro-sidebar/dist/scss/styles.scss';
+
+//Librerias
+@import './styles/lib/kendogrid.scss';
+
+//Components
 @import './styles/components/form.scss';
+@import './styles/components/table.scss';
+@import './styles/components/buttons.scss';
+
 
 
 html {
@@ -27,24 +35,9 @@ body {
   display: flex;
   position: relative;
 
-  // .btn-toggle {
-  //   cursor: pointer;
-  //   width: 35px;
-  //   height: 35px;
-  //   background: #353535;
-  //   color: #fff;
-  //   text-align: center;
-  //   border-radius: 50%;
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: center;
-  //   font-size: 15px;
-  //   display: none;
-  // }
-
   .app__container_body {
-    margin-top: 40px;
-    height: 714px;
+    margin-top: 90px;
+    // height: 714px;
   }
 
   .sidebar-btn-wrapper {

@@ -10,12 +10,38 @@
   overflow: hidden;
 
   &-content {
+
+    .app-logo {
+      width: 3.5rem !important;
+    }
+
+    &.ui.menu {
+      border-radius: 0;
+    }
     background-color: #555DFF !important;
     .item {
       color: #fff !important;
+      overflow:hidden;
+      &::before {
+        content: none !important;
+      }
+      &--user {
+        @media (max-width: 464px) {
+          width: 250px;
+        }
+      }
       .name-user {
+        display: block;
+        width: 100%;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
         font-size: 14px;
         font-weight: bold;
+        text-transform: uppercase;
+        svg {
+          vertical-align: middle;
+        }
       }
       cursor: pointer;
       &:hover {
@@ -23,11 +49,27 @@
       }
     }
 
-    .btn-toggle {
+    .btn-toggle.ui.item,
+    .power-off.ui.item {
       width: 60px;
       padding: 15px;
       font-size: 1.5rem;
+      &.ui.item.responsive {
+        display: none;
+
+        @media (max-width: 578px) {
+          display: flex;
+        }
+      }
     }
+
+    .btn-toggle.ui.item {
+      @media (max-width: 578px) {
+        display: none;
+      }
+    }
+
+
   }
 
 
