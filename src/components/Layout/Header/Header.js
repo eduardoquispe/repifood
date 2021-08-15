@@ -1,7 +1,7 @@
 import { FaBars, FaPowerOff, FaUserCircle } from 'react-icons/fa';
 import { useState } from 'react';
 import ModalUsuario from '../../Usuario/ModalUsuario';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../actions/authActions';
 import Notiflix from 'notiflix';
 import LogoHeader from '../../../assets/img/layout/logo_header.png';
@@ -12,9 +12,10 @@ const Header = ({ handleCollapsedChange, handleToggleSidebar }) => {
 
   const [open, setOpen] = useState(false)
   const dispatch = useDispatch();
+  const { user = {} } = useSelector(state => state.auth);
 
   const handleShowOperador = () => {
-    dispatch(getDataOperador(setOpen));
+    dispatch(getDataOperador(user.idOperador, setOpen));
   }
 
   const handleLogout = () => {
@@ -47,7 +48,7 @@ const Header = ({ handleCollapsedChange, handleToggleSidebar }) => {
         <div className="nav-content right menu colhidden">
           <div className="ui item item--user" onClick={handleShowOperador}>
             <p className="name-user">
-              <FaUserCircle />&nbsp;&nbsp;Eduardo Quispe Huancahuari
+              <FaUserCircle />&nbsp;&nbsp;{user.nombres} {user.apellidos}
             </p>
           </div>
           <div className="power-off ui item" onClick={() => handleLogout()}>

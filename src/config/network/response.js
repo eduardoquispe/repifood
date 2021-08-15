@@ -21,11 +21,15 @@ const error = (res = null, msg = null) => {
   }
 }
 
-const success = (res) => {
-  if(res.status === STATUS_OK && res.msg) {
-    Notify.success(res.msg);
+const success = (res, msg) => {
+  if(msg) {
+    Notify.success(msg);
   } else {
-    Notify.success('Realizado con exito');
+    if(res.status === STATUS_OK && res.message) {
+      Notify.success(res.msg);
+    } else {
+      Notify.success('Realizado con exito');
+    }
   }
 }
 

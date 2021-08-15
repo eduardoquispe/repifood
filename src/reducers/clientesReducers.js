@@ -1,11 +1,16 @@
+import { CLIENTES } from "../actions/types";
+
 const initialState = {
-  clientes: []
+  cliente: {}
 };
 
 export default function clientesReducers(state = initialState, action) {
   switch (action.type) {
-    case 'TIPO':
-      return;
+    case CLIENTES.GET_CLIENTE_OK:
+      return {
+        ...state,
+        cliente: action.value
+      }
     default:
       return state;
   }

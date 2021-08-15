@@ -1,13 +1,13 @@
-import { Form, Grid, Button, Image, Modal, Header, Divider } from "semantic-ui-react";
+import { Form, Grid, Button, Image, Modal, Header, Divider, Dropdown } from "semantic-ui-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addOperador } from "../../../actions/operadorActions";
+import { addOperador, updateOperador } from "../../../actions/operadorActions";
 
 const ModalOperadores = ({ setOpenModal, editarOperador, reloadTable }) => {
   
-  const { operador } = useSelector(state => state.operadores);
+  const { operador, perfiles } = useSelector(state => state.operadores);
   const dispatch = useDispatch();
   const upload = useRef(null);
   const [previewImg, setPreviewImg] = useState(null);
@@ -20,16 +20,38 @@ const ModalOperadores = ({ setOpenModal, editarOperador, reloadTable }) => {
     initialValues: editarOperador ? {...operador, nuevoPassword: ''} : initialValues(),
     validationSchema: Yup.object(validationSchema()),
     onSubmit: async values => {
-      const res = await dispatch(addOperador(values));
+      const formEmpleado = document.getElementById('formEmpleado');
+      const formData = new FormData(formEmpleado);
+      formData.append('idPerfil', values.idPerfil);
+
+      let res = null;
+      if(values.idOperador) {
+        res = await dispatch(updateOperador(values.idOperador, formData));
+      } else {
+        res = await dispatch(addOperador(formData));
+      }
 
       if(res) {
         reloadTable(true);
         setOpenModal(false);
       }
-
     }
   });
   
+  const getOptions = () => {
+    
+    let listPerfil = [{ text: 'Seleccione', value:'0', key: 0 }];
+    perfiles.forEach(perfil => {
+      listPerfil = [...listPerfil, {
+        key: perfil.idPerfil,
+        text: perfil.perfil,
+        value: perfil.idPerfil
+      }];
+    })
+
+    return listPerfil;
+  }
+
   const renderImagen = e => {
     let reader = new FileReader();
 
@@ -37,6 +59,7 @@ const ModalOperadores = ({ setOpenModal, editarOperador, reloadTable }) => {
     formik.setFieldValue('nuevaImg', e.target.files)
 
     reader.onload = () => {
+      // formik.setFieldValue('imagen', reader.result);
       setPreviewImg(reader.result);
     }
   }
@@ -47,7 +70,7 @@ const ModalOperadores = ({ setOpenModal, editarOperador, reloadTable }) => {
         <Modal.Content>
           <Grid>
             <Grid.Column width={11}>
-              <Form onSubmit={formik.handleSubmit}>
+              <Form onSubmit={formik.handleSubmit} id="formEmpleado">
                 <Form.Group>
                   <Form.Input 
                     label="Nombres" 
@@ -153,14 +176,27 @@ const ModalOperadores = ({ setOpenModal, editarOperador, reloadTable }) => {
                       />
                     )
                   }
-                </Form.Group>
+                  <Form.Field>
+                    <label>Perfil</label>
+                    <Form.Input 
+                      control={Dropdown}
+                      options={getOptions()}
+                      name='idPerfil'
+                      search selection
+                      value={formik.values.idPerfil}
+                      onChange={(_, data) => formik.setFieldValue('idPerfil', data.value)}
+                      error={formik.errors.idPerfil}
+                    />
+                  </Form.Field>
+                  </Form.Group>
+                <input type="file" style={{ display: "none" }} ref={upload} name="imagenBin" onChange={renderImagen} />
               </Form>
             </Grid.Column>
             <Grid.Column width={5}>
               <Image
                 className=""
                 size="medium"
-                src={`${previewImg}`}
+                src={`${!previewImg ? `${process.env.REACT_APP_HOST_URL}/${formik.values.imagen}` : previewImg}`}
                 wrapped
               />
               <Button
@@ -170,7 +206,6 @@ const ModalOperadores = ({ setOpenModal, editarOperador, reloadTable }) => {
               >
                 Click para seleccionar una imagen
               </Button>
-              <input type="file" style={{ display: "none" }} ref={upload} onChange={renderImagen} />
             </Grid.Column>
           </Grid>
         </Modal.Content>
@@ -187,6 +222,7 @@ export default ModalOperadores;
 const initialValues = () => {
   
   return {
+    idOperador: '',
     nombres: "",
     apellidos: "",
     dni: "",
@@ -196,7 +232,9 @@ const initialValues = () => {
     password: "",
     direccion: "",
     fechaNacimiento: "",
-    nuevoPassword: "" 
+    nuevoPassword: "",
+    imagen: '',
+    idPerfil: '0'
   }
 }
 
@@ -232,6 +270,10 @@ const validationSchema = () => {
       .required('Este campo es requerido.'),
     fechaNacimiento: Yup
       .date()
+      .required('Este campo es requerido.'),
+    idPerfil: Yup
+      .number()
+      .positive('Este campo es requerido.')
       .required('Este campo es requerido.')
   }
 }

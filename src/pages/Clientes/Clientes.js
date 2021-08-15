@@ -3,35 +3,55 @@ import {
   Grid,
   GridColumn as Column
 } from "@progress/kendo-react-grid";
-import { Button, Dropdown, Label } from "semantic-ui-react";
+import { Button, Dropdown, Input, Label, Modal } from "semantic-ui-react";
 import { FaPlus } from "react-icons/fa";
-import BusquedaCliente from "../../components/Clientes/BusquedaCliente";
 import useLoaderTable from "../../hooks/useLoaderTable";
 import ModalClientes from '../../components/Clientes/ModalClientes';
 import { useState } from "react";
-import Notiflix from "notiflix";
+import { useDispatch } from "react-redux";
+import { deleteCliente, getClienteById, updateEstadoCliente } from "../../actions/clientesActions";
+import { Confirm } from "notiflix";
 import useDimensionTable from "../../hooks/useDimensionTable";
+import { ST_ACTIVO, ST_INACTIVO } from "../../config/constants";
 
 const Clientes = () => {
 
-  const { dataResul, dataState, dataStateChange, requestDataIfNeeded } = useLoaderTable({ url: 'empleado' });
+  const { dataResul, dataState, dataStateChange, requestDataIfNeeded, handleCustomSearch } = useLoaderTable({ url: 'cliente' });
+  const [editarCliente, setEditarCliente] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const { height: heightGrid } = useDimensionTable();
+  const dispatch = useDispatch();
+  useDimensionTable();
 
-  // const handleClick = () => {
-  //   requestDataIfNeeded(true);
-  // }
-
-  const handleEditar = () => {
-    Notiflix.Loading.pulse();
-
-    setTimeout(() => {
+  const handleEditar = async (idCliente) => {
+    const res = await dispatch(getClienteById(idCliente));
+  
+    if(res) {
+      setEditarCliente(true);
       setOpenModal(true);
-      Notiflix.Loading.remove();
-    }, 2000);
+    }
   }
 
-  
+  const handleEditarEstado = async (idCliente, estadoNuevo) => {
+    const res = await updateEstadoCliente(idCliente, estadoNuevo);
+    if(res) {
+      requestDataIfNeeded(true);
+    }
+  }
+
+  const handleEliminar = (idCliente) => {
+    Confirm.show(
+      'OPERADORES',
+      `¿Desea eliminar al operador ${idCliente}?`,
+      'Aceptar',
+      'Cancelar',
+      async function(){
+        const res = await dispatch(deleteCliente(idCliente));
+        if(res) {
+          requestDataIfNeeded(true);
+        }
+      }
+    );
+  }
 
   return (
     <div className="Clientes">
@@ -43,13 +63,16 @@ const Clientes = () => {
           </div>
         </div>
         <div className="item ui colhidden">
-            <Button icon onClick={() => setOpenModal(true)}>
+            <Button icon onClick={() => {
+              setOpenModal(true);
+              setEditarCliente(false);
+            }}>
               <FaPlus /> Nuevo Cliente
             </Button>
           </div>
           <div className="right menu colhidden">
             <div className="item ui colhidden">
-              <BusquedaCliente />
+              <Input icon='search' onKeyDown={handleCustomSearch} placeholder='Buscar cliente...' />
             </div>
           </div>
       </HeaderPage>
@@ -58,7 +81,6 @@ const Clientes = () => {
           <Grid
               sortable={true}
               pageable={true}
-              style={{ height: heightGrid }}
               {...dataState}
               {...dataResul}
               onDataStateChange={dataStateChange}
@@ -66,7 +88,7 @@ const Clientes = () => {
             >
               <Column
                 width={50}
-                cell={() => (
+                cell={({ dataItem }) => (
                   <td style={{overflow: "inherit"}}>
                     <Dropdown
                       icon='ellipsis vertical'
@@ -79,17 +101,29 @@ const Clientes = () => {
                           icon="edit"
                           className="blue"
                           text='Editar'
-                          onClick={handleEditar}
+                          onClick={() => handleEditar(dataItem.idCliente)}
                         />
                         <Dropdown.Item
                           icon="delete"
                           className="red"
                           text='Eliminar'
+                          onClick={() => handleEliminar(dataItem.idCliente)}
                         />
-                        <Dropdown.Item 
-                          icon="unlock"
-                          text="Activar"
-                        />
+                        {
+                          parseInt(dataItem.idTipoEstado) === ST_ACTIVO ? (
+                            <Dropdown.Item 
+                              icon="lock"
+                              text='Desabilitar'
+                              onClick={() => handleEditarEstado(dataItem.idCliente, ST_INACTIVO)}
+                            />
+                          ) : (
+                            <Dropdown.Item 
+                              icon="unlock"
+                              text='Activar'
+                              onClick={() => handleEditarEstado(dataItem.idCliente, ST_ACTIVO)}
+                            />
+                          )
+                        }
                       </Dropdown.Menu>
                     </Dropdown>
                   </td>
@@ -98,27 +132,38 @@ const Clientes = () => {
               <Column
                 width={50}
                 title='ID'
-                field="idEmpleado"
+                field="idCliente"
               />
               <Column field="nombres" title="NOMBRES" />
               <Column field="apellidos" title="APELLIDOS" />
-              <Column field="email" title="EMAIL" />
+              <Column field="email" title="CORREO" />
               <Column field="celular" title="CELULAR" />
               <Column 
                 title="ESTADO"
-                cell={() => (
+                cell={({ dataItem }) => (
                   <td>
-                    <Label color="green">Activo</Label>
+                    {
+                        parseInt(dataItem.idTipoEstado) === ST_ACTIVO ? (
+                          <Label color="green" size="tiny">{dataItem['tipoEstado ']}</Label>
+                      ) : (
+                        <Label color="red" size="tiny">{dataItem['tipoEstado ']}</Label>
+                      )
+                    }
                   </td>
                 )}
               />
             </Grid>
         </div>
       </div>
-        <ModalClientes 
-          setOpenModal={setOpenModal}
-          open={openModal}
-        />
+        <Modal open={openModal}>
+          {
+            openModal && <ModalClientes 
+              setOpenModal={setOpenModal}
+              requestDataIfNeeded={requestDataIfNeeded}
+              editarCliente={editarCliente}
+            />
+          }
+        </Modal>
     </div>
   );
 }

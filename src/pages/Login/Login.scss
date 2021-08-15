@@ -35,6 +35,12 @@
 
   &__left {
     background-color: #555DFF;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    &-logo {
+      width: 23rem;
+    }
   }
 
   .form-login.ui.form {

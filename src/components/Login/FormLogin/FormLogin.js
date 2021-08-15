@@ -5,7 +5,7 @@ import { useState } from 'react';
 const FormLogin = () => {
 
   const dispatch = useDispatch();
-  const { result, loading } = useSelector(state => state.auth);
+  const { loading } = useSelector(state => state.auth);
   const [dataEnviar, setDataEnviar] = useState({
     userName: '',
     password: ''
@@ -55,11 +55,11 @@ const FormLogin = () => {
             Acceder
           </Button>
         </Form.Group>
-        {result && (
+        {/* {result && (
           <div className="alert alert-danger" role="alert" id="login__alert">
             Error de usuario y/o contraseña, por favor revise e intente nuevamente
           </div>
-        )}
+        )} */}
       </Form>
   );
 }

@@ -1,5 +1,6 @@
 import Notiflix from 'notiflix';
-import { authAxios, applyHeaders, removeHeaders } from '../config/authAxios';
+import authAxios from '../config/authAxios';
+import { applyHeaders, removeHeaders } from '../config/network/authToken';
 import { STATUS_OK } from '../config/constants';
 import response from '../config/network/response';
 import { deleteToken, getToken, setToken } from '../utils/authHelper';
@@ -10,29 +11,46 @@ export const validarLogin = () => {
     
     Notiflix.Loading.init({
       svgColor: "#023ca1",
-      backgroundColor: "rgba(132,131,131,0.191)",
+      backgroundColor: "#7e7d7d30",
       'messageColor': "#3c6bbd"
     });
 
     Notiflix.Loading.pulse('Cargando sistema...');
-
-    const token = getToken();
-
-    if(token === '') {
-      dispatch(logout());
+    if(getToken() === '')
+    {
+      dispatch({
+        type: AUTH.LOGIN_ERROR
+      })
       Notiflix.Loading.remove();
       return;
     }
+    
+    try {
 
-    setTimeout(() => {
-      applyHeaders(token);
+      const res = await authAxios.get('/decode');
+    
+      if(res.data.status === STATUS_OK) {
+        dispatch({
+          type: AUTH.LOGIN_EXITOSO,
+          value: res.data.body
+        })
+        Notiflix.Loading.remove();
+        return true;
+      } else { 
+        dispatch({
+          type: AUTH.LOGIN_ERROR
+        })
+        // window.location = '/login';
+      }
+      Notiflix.Loading.remove();
+    } catch (error) {
+      response.error(error);
       dispatch({
-        type: AUTH.LOGIN_EXITOSO,
-        value: token
+        type: AUTH.LOGIN_ERROR
       })
-      Notiflix.Loading.remove();      
-    }, 3000);
-
+      Notiflix.Loading.remove();
+      // window.location = '/login';
+    }
   }
 }
 
@@ -42,13 +60,14 @@ export const loguearse = (dataEnviar) => {
       type: AUTH.LOGIN
     })
     try {
-      const response = await authAxios.post('/loginEmpleado', dataEnviar);
-      if(response.data.status === STATUS_OK) {
-        setToken(response.data.body);
-        applyHeaders(response.data.body);
+      const res = await authAxios.post('/loginEmpleado', dataEnviar);
+      if(res.data.status === STATUS_OK) {
+        const token = res.data.body.token
+        setToken(token);
+        applyHeaders(token);
         dispatch({
           type: AUTH.LOGIN_EXITOSO,
-          value: response.data.body
+          value: res.data.body
         })
       } else {
         dispatch({
@@ -67,11 +86,11 @@ export const loguearse = (dataEnviar) => {
 
 export const logout = () => {
   return async dispatch => {
-    deleteToken();
     removeHeaders();
+    deleteToken();
     dispatch({
       type: AUTH.LOGOUT,
-      valu: false
+      value: false
     })
   }
 }

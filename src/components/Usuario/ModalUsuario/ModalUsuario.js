@@ -1,11 +1,17 @@
+import { useRef } from "react";
 import { useSelector } from "react-redux";
-import { Button, Divider, Modal, Grid } from "semantic-ui-react";
+import { Button, Divider, Modal, Grid, Header } from "semantic-ui-react";
 import FormularioUsuario from "../FormularioUsuario";
 import './ModalUsuario.scss';
 
 const ModalUsuario = ({ open, setOpen }) => {
 
   const { operador } = useSelector(state => state.operadores);
+  const formRef = useRef(null)
+
+  const handleSubmit = () => {
+    formRef.current.handleSubmit();
+  }
 
   return ( 
     <Modal
@@ -28,16 +34,16 @@ const ModalUsuario = ({ open, setOpen }) => {
               <b>DNI: {operador.dni}</b>
             </Grid.Column>
           </Grid>
-          <h4>Acceso al sistema</h4>
+          <Header as="h3" >Acceso al sistema</Header>
           <Divider />
-          <FormularioUsuario />
+          <FormularioUsuario formRef={formRef} setOpen={setOpen} />
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
         <Button onClick={() => setOpen(false)}>
           Cancelar
         </Button>
-        <Button primary onClick={() => setOpen(false)}>
+        <Button primary onClick={() => handleSubmit()}>
           Guardar
         </Button>
       </Modal.Actions>

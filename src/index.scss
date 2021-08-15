@@ -188,3 +188,310 @@ body {
     background: #ffd331;
   }
 }
+
+:root {
+	--main-purple-color: #535bf2;
+  --main-aqua-color: #4BE1D1;
+  --main-celeste-claro-color:#E2EEFB;
+  --main-azul-color:#568FED;
+  --main-aqua-white-color:#F0F6FF;
+  --main-padding-top-input:0.6em
+}
+
+.ui.sidebar.vertical.left.menu.overlay.borderless.visible.sidemenu.inverted.grey.ps
+{
+	background-color: var(--main-purple-color)!important;
+}
+
+.ui.inverted.grey.menu, .ui.inverted.menu .grey.active.item{
+	background-color: var(--main-purple-color)!important;
+}
+
+#app_header.ui.menu
+{
+    background-color:var(--main-aqua-color)
+}
+.ui.button.btn_configuracion
+{
+  	background: rgba(43,187,189,1)!important;
+		background: -moz-linear-gradient(left, rgba(43,187,189,1) 0%, rgba(72,222,207,1) 100%)!important;
+		background: -webkit-gradient(left top, right top, color-stop(0%, rgba(43,187,189,1)), color-stop(100%, rgba(72,222,207,1)))!important;
+		background: -webkit-linear-gradient(left, rgba(43,187,189,1) 0%, rgba(72,222,207,1) 100%)!important;
+		background: -o-linear-gradient(left, rgba(43,187,189,1) 0%, rgba(72,222,207,1) 100%)!important;
+		background: -ms-linear-gradient(left, rgba(43,187,189,1) 0%, rgba(72,222,207,1) 100%)!important;
+		background: linear-gradient(to right, rgba(43,187,189,1) 0%, rgba(72,222,207,1) 100%)!important;
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2bbbbd', endColorstr='#48decf', GradientType=1 )!important;
+		color:white!important;
+}
+
+.add_destino
+{
+	
+  	background: rgba(158,81,235,1)!important;
+		background: -moz-linear-gradient(left, rgba(158,81,235,1) 0%, rgba(231,131,253,1) 100%)!important;
+		background: -webkit-gradient(left top, right top, color-stop(0%, rgba(158,81,235,1)), color-stop(100%, rgba(231,131,253,1)))!important;
+		background: -webkit-linear-gradient(left, rgba(158,81,235,1) 0%, rgba(231,131,253,1) 100%)!important;
+		background: -o-linear-gradient(left, rgba(158,81,235,1) 0%, rgba(231,131,253,1) 100%)!important;
+		background: -ms-linear-gradient(left, rgba(158,81,235,1) 0%, rgba(231,131,253,1) 100%)!important;
+		background: linear-gradient(to right, rgba(158,81,235,1) 0%, rgba(231,131,253,1) 100%)!important;
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9e51eb', endColorstr='#e783fd', GradientType=1 )!important;
+		color:white!important;
+}
+
+.app_content__padded_view {
+  padding: 20px;
+  padding-bottom: 90px;
+}
+
+#app_content_actions {
+  background-color: #F5F7FF;
+}
+
+.ui.button.btn_configuracion:hover
+{
+	color:white;
+}
+ .ui.button {
+    padding: 0.65em 1.2rem;
+    border-radius: 0.63rem;
+} 
+
+.ui.button, .ui.button:hover {
+    background-color:var(--main-celeste-claro-color);
+    color:var(--main-azul-color);   
+}
+
+.ui.button.alone:not(.icon)>.icon:not(.button):not(.dropdown) {
+	margin:0;
+}
+.ui.button.alone
+{
+	padding: var(--main-padding-top-input) var(--main-padding-top-input);
+}
+
+body{
+	background-color:white;
+}
+
+.ui.form input:not([type]), .ui.form input[type=date], .ui.form input[type=datetime-local], .ui.form input[type=email], .ui.form input[type=file], .ui.form input[type=number], .ui.form input[type=password], .ui.form input[type=search], .ui.form input[type=tel], .ui.form input[type=text], .ui.form input[type=time], .ui.form input[type=url] 
+,.ui.button
+,.ui.selection.dropdown
+,.ui.menu .item > .input input
+,.ui.input > input
+ ,.ui.search.selection.dropdown > input.search 
+ ,.ui.multiple.search.dropdown > .text 
+ ,.ui.multiple.dropdown 
+{
+    padding: var(--main-padding-top-input) 1.2rem;
+    border-radius: 0.55rem;
+}
+.ui.ui.multiple.dropdown, .ui.multiple.dropdown
+{
+	padding: 0 0.2rem;
+	height : calc(100% - 2rem)
+}
+
+.ui.selection.dropdown > .search.icon, .ui.selection.dropdown > .delete.icon, .ui.selection.dropdown > .dropdown.icon
+{
+	padding: var(--main-padding-top-input);
+}
+.ui.selection.dropdown
+{
+	min-height: 2.1em;
+}
+
+
+.ui.search.dropdown > input.search {
+	padding: inherit!important;
+}
+.ui.button.primary
+{
+    background: var(--main-azul-color)!important;
+    background: -moz-linear-gradient(left, var(--main-azul-color) 0%, var(--main-purple-color) 100%)!important;
+    background: -webkit-gradient(left top, right top, color-stop(0%, var(--main-azul-color)), color-stop(100%, var(--main-purple-color)))!important;
+    background: -webkit-linear-gradient(left, var(--main-azul-color) 0%, var(--main-purple-color) 100%)!important;
+    background: -o-linear-gradient(left, var(--main-azul-color) 0%, var(--main-purple-color) 100%)!important;
+    background: -ms-linear-gradient(left, var(--main-azul-color) 0%, var(--main-purple-color) 100%)!important;
+    background: linear-gradient(to right, var(--main-azul-color) 0%, var(--main-purple-color) 100%)!important;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='var(--main-azul-color)', endColorstr='var(--main-purple-color)', GradientType=1 )!important;
+}
+
+.ui.button.dropdown .icon
+{
+	color:var(--main-purple-color)
+}
+
+
+.ui.checkbox input:checked ~ .box:before,
+.ui.checkbox input:checked ~ label:before {
+  background: #4BE1D1!important;
+  border-color: #4BE1D1!important;
+}
+
+.ui.checkbox input:checked ~ .box:after,
+.ui.checkbox input:checked ~ label:after {
+  opacity: 1;
+  color: white!important;
+}
+
+.ui.radio.checkbox input:checked~.box:after,
+.ui.radio.checkbox input:checked~label:after {
+    background-color: white;
+}
+.ui.radio.checkbox input:focus:checked~.box:after,
+.ui.radio.checkbox input:focus:checked~label:after {
+    background-color: white;
+}
+
+.ui.form .field>label
+{
+	color:#666666;
+}
+
+
+.label_total
+{
+  color:#5B48CA!important	
+}
+
+.ui.button.dropdown.active,
+.ui.button.dropdown.active > input:focus,
+.ui.button.dropdown.icon.active > .icon
+{
+	color:white;
+}
+
+.ui.active.search.dropdown > input.search:focus+.text{
+	color: white!important;
+}
+
+.ui.button.dropdown.active
+{
+	background-color:var(--main-purple-color);
+}
+
+.ui.dropdown .menu>.item
+{
+	padding:0.52rem 0.6rem!important;
+	padding: 0.6rem!important;
+}
+
+.ui.dropdown .menu>.item, .ui.dropdown .menu>.item:hover
+{
+  color:var(--main-purple-color)
+}
+
+.ui.multiple.dropdown > .label
+{
+	margin:0.13rem 0.15rem 0.08rem 0em
+}
+
+.ui.multiple.search.dropdown > .text
+{
+	margin:0.35em 0em 0.5em 1em
+}
+
+.ui.form input:not([type]), .ui.form input[type=date], .ui.form input[type=datetime-local], .ui.form input[type=email], .ui.form input[type=file], .ui.form input[type=number], .ui.form input[type=password], .ui.form input[type=search], .ui.form input[type=tel], .ui.form input[type=text], .ui.form input[type=time], .ui.form input[type=url]
+,.ui.checkbox label, .ui.checkbox+label
+,.ui.checkbox label:hover, .ui.checkbox+label:hover 
+,.ui.form input:not([type]):focus, .ui.form input[type="date"]:focus, .ui.form input[type="datetime-local"]:focus, .ui.form input[type="email"]:focus, .ui.form input[type="number"]:focus, .ui.form input[type="password"]:focus, .ui.form input[type="search"]:focus, .ui.form input[type="tel"]:focus, .ui.form input[type="time"]:focus, .ui.form input[type="text"]:focus, .ui.form input[type="file"]:focus, .ui.form input[type="url"]:focus
+,.ui.selection.dropdown
+,.ui.selection.visible.dropdown > .text:not(.default)
+,.ui.dropdown.selected, .ui.dropdown .menu .selected.item
+,.ui.dropdown .menu > .item
+,.ui.dropdown .menu > .item:hover
+,.k-block, .k-content, .k-dropdown .k-input, .k-popup, .k-widget
+{
+	color:#787878;
+}
+
+.ui.dropdown .menu>.item>.flag, .ui.dropdown .menu>.item>.icon, .ui.dropdown .menu>.item>.image, .ui.dropdown .menu>.item>.label, .ui.dropdown .menu>.item>img, .ui.dropdown>.text>.flag, .ui.dropdown>.text>.icon, .ui.dropdown>.text>.image, .ui.dropdown>.text>.label, .ui.dropdown>.text>img
+{
+	margin-right:0.20rem;
+}
+
+.ui.labels .label, .ui.label,.ui.labels .label:hover, a.ui.label:hover
+{
+	background-color:white;
+	color:var(--main-azul-color);
+	border-color: var(--main-azul-color);
+	border-radius: 0.55rem;
+}
+
+
+.ui.labels .label:not(.empty), .ui.label:not(.empty)
+,.ui.labels:not(.empty) .label:not(.empty):hover, a.ui.label:not(.empty):hover
+{
+	border: solid 0.13rem;
+}
+
+.ui.blue.labels .label, .ui.blue.label
+,.ui.blue.labels .label:hover, a.ui.blue.label:hover
+{
+	background-color:white!important;
+	color:#3CE094 !important;
+	border: solid 0.13rem;
+	border-color: #3CE094 !important;
+	border-radius: 0.55rem;
+}
+
+.ui.green.labels .label, .ui.green.label
+,.ui.green.labels .label:hover, a.ui.green.label:hover
+{
+	background-color:white !important;
+	color: var(--main-purple-color) !important;
+	border: solid 0.13rem;
+	border-color: var(--main-purple-color) !important;
+	border-radius: 0.55rem;
+}
+
+
+
+.configuracion_iconos i
+{
+	color: var(--main-purple-color);
+	background-color:var(--main-celeste-claro-color);
+	padding: 0.4rem 0.4rem;
+	margin: 0 0.35rem;
+	border-radius:0.4rem
+}
+
+#app_content_toolbar .ui.menu
+{
+	box-shadow:none;
+}
+
+ //MODAL 
+
+.ui.modal > .actions
+{
+	background-color:white
+}
+.ui.modal > .header
+{
+	background-color:#F0F6FF;
+	color:#2BBBBC
+}
+
+ //KENDO GRID 
+
+ TR 
+.k-grid tr:hover
+{
+	background-color: var(--main-aqua-white-color)
+}
+
+ .k-block, .k-content, .k-dropdown .k-input, .k-popup, .k-widget
+{
+	color:#787878;
+}
+ 
+.k-detail-row,.k-detail-row:focus
+{
+	background-color:#B2B2B2!important
+}
+.k-gantt-toolbar .k-state-default, .k-grid .k-grouping-header, .k-grid-footer td, .k-grid-header, .k-grid-header-wrap, .k-group-footer td, .k-grouping-row td, .k-header, .k-pager-wrap, 
+ .k-pager-wrap .k-link, 
+ .k-pager-wrap .k-textbox {
+    border-color: #EBEBEB;
+}

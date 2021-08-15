@@ -18,7 +18,7 @@
     &.ui.menu {
       border-radius: 0;
     }
-    background-color: #555DFF !important;
+    background-color: #535bf2 !important;
     .item {
       color: #fff !important;
       overflow:hidden;
@@ -27,7 +27,8 @@
       }
       &--user {
         @media (max-width: 464px) {
-          width: 250px;
+          // width: 250px;
+          display: none !important;
         }
       }
       .name-user {
@@ -45,7 +46,7 @@
       }
       cursor: pointer;
       &:hover {
-        background-color: #4C54E7;
+        background-color: darken($color: #535bf2, $amount: 2);
       }
     }
 

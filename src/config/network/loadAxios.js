@@ -1,5 +1,5 @@
 import { Loading } from "notiflix";
-import { authAxios } from "../authAxios";
+import authAxios from "../authAxios";
 
 export default async function loadAxios({ url, body, method }) {
   
@@ -19,8 +19,8 @@ export default async function loadAxios({ url, body, method }) {
       case 'GET': 
         response = await authAxios.get(url);
         break;
-      case 'PUST':
-        response = await authAxios.put(url);
+      case 'PUT':
+        response = await authAxios.put(url, body);
         break;
       case 'DELETE':
         response = await authAxios.delete(url);

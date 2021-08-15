@@ -2,7 +2,7 @@ import { AUTH } from '../actions/types';
 
 const initialState = {
   login: null,
-  result: null,
+  user: {},
   token: null,
   loading: false
 }
@@ -20,20 +20,24 @@ export default function authReducer(state = initialState, action) {
         ...state,
         login: true,
         loading: false,
-        token: action.value.token
+        token: action.value.token,
+        user: action.value
       }
     case AUTH.LOGIN_ERROR:
         return {
           ...state,
           login: false,
-          result: null,
+          user: {},
           token: null,
           loading: false
         }
     case AUTH.LOGOUT:
       return {
         ...state,
-        login: false
+        login: false,
+        user: {},
+        token: null,
+        loading: false
       }
     default:
       return state;

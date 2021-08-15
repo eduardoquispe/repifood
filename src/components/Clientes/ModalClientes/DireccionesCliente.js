@@ -1,6 +1,6 @@
 import { Table } from "semantic-ui-react"
 
-const DireccionesCliente = () => {
+const DireccionesCliente = ({ direcciones = [] }) => {
   return ( 
     <div className="DireccionesCliente">
       <Table celled selectable>
@@ -12,20 +12,26 @@ const DireccionesCliente = () => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          <Table.Row>
-            <Table.Cell>1</Table.Cell>
-            <Table.Cell>Approved</Table.Cell>
-            <Table.Cell>None</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>2</Table.Cell>
-            <Table.Cell>Approved</Table.Cell>
-            <Table.Cell>None</Table.Cell>
-          </Table.Row>
+          {direcciones.map((direccion, index) => (
+            <FilaDirecciones 
+              key={index}
+              {...direccion}
+            />
+          ))}
         </Table.Body>
       </Table>
     </div>
   );
 }
- 
+
 export default DireccionesCliente;
+
+const FilaDirecciones = ({ idDireccion, direccion, referencia }) => {
+  return (
+    <Table.Row>
+      <Table.Cell>{idDireccion}</Table.Cell>
+      <Table.Cell>{direccion}</Table.Cell>
+      <Table.Cell>{referencia}</Table.Cell>
+    </Table.Row>
+  );
+}

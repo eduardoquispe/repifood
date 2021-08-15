@@ -10,8 +10,14 @@ import { Link } from 'react-router-dom';
 import 'react-pro-sidebar/dist/css/styles.css';
 import './Sidebar.scss';
 import routes from '../../../routes/routes';
+import { useSelector } from 'react-redux';
 
 const Sidebar = ({ collapsed, toggled, handleToggleSidebar }) => {
+
+  const { user = {} } = useSelector(state => state.auth);
+
+  if(!Object.keys(user).length) return null;
+
   return (
     <div className="Sidebar">
       <ProSidebar
@@ -23,18 +29,22 @@ const Sidebar = ({ collapsed, toggled, handleToggleSidebar }) => {
       >
         <SidebarContent>
           <Menu popperArrow={true}>
-            {routes.map((route, index) => {
-              if(!route.subItems) {
+            {routes(user.idPerfil).map((route) => {
+              if((!route.subItems || route.component !== null) && !route.noShow ) {
                 return <MenuItem key={route.url} icon={route.icon}>
                   <Link to={`${route.url}`}>{route.title}</Link>
                 </MenuItem>
               } else {
                 return <SubMenu title={route.title} key={route.url} icon={route.icon}>
-                  {route.subItems.map((subitem, index) => (
-                    <MenuItem key={subitem.url} icon={subitem.icon}>
-                      <Link to={`${subitem.url}`}>{subitem.title}</Link>
-                    </MenuItem>
-                  ))}
+                  {route.subItems.map((subitem) => {
+                    if(!subitem.noShow) {
+                      return <MenuItem key={subitem.url} icon={subitem.icon}>
+                        <Link to={`${subitem.url}`}>{subitem.title}</Link>
+                      </MenuItem> 
+                    } else {
+                      return null
+                    }
+                  })}
                 </SubMenu>
               }
             })}

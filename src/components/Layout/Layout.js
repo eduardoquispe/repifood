@@ -1,75 +1,43 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
-import Sidebar from './Sidebar';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import Header from './Header';
-import { useDispatch, useSelector } from 'react-redux';
-import routes from '../../routes/routes';
+import React, { lazy, Suspense, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
+import DashboardRouting from '../../routes/DashboardRouting';
+import PublicRoute from '../../routes/PublicRoute';
+import PrivateRoute from '../../routes/PrivateRoute';
 import './Layout.scss';
-import { validarLogin } from '../../actions/authActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { validarLogin } from "../../actions/authActions";
 
 const Login = lazy(() => import('../../pages/Login'));
 
 
 function Layout() {
-  const [collapsed, setCollapsed] = useState(false);
-  const [toggled, setToggled] = useState(false);
-
+  
   const { login } = useSelector(state => state.auth);
+
   const dispatch = useDispatch();
 
-  const handleCollapsedChange = () => {
-    setCollapsed(collapsed => !collapsed);
-  };
-
-  const handleToggleSidebar = () => {
-    setToggled(toggled => !toggled);
-  };
-
   useEffect(() => {
-    (() => {
-      dispatch(validarLogin());
-    })();
-  }, [])
+    dispatch(validarLogin());
+  }, [dispatch]);
 
   return (
       <Router>
-        { login === true ? (
-          <div className={`app ${toggled ? 'toggled' : ''}`}>
-              <Header 
-                handleCollapsedChange={handleCollapsedChange}
-                handleToggleSidebar={handleToggleSidebar}
-              />
-              <Sidebar
-                collapsed={collapsed}
-                toggled={toggled}
-              />
-              <main className="content-main">
-                <Suspense fallback={<div></div>}>
-                  <Switch>
-                    {routes.map((route, index) => {
-                      if(!route.subItems) {
-                        return <Route key={route.url} path={`${route.url}`} exact={route.exact} component={route.component} />
-                      } else {
-                          return route.subItems.map((subitem, index) => (
-                            <Route key={route.url} path={`${subitem.url}`} exact={route.exact} component={subitem.component} />
-                          ))
-                      }
-                    })}
-                    <Redirect to='/' />
-                  </Switch>
-                </Suspense>
-              </main>
-            </div>
-          ) : login === false ? (
-            <>
-              <Suspense fallback={<div></div>}>
-                <Route path="/login" exact component={Login} />
-                <Redirect to='/login' />
-              </Suspense>
-            </>
-          ) : (
-            <div></div>
-          )}
+        <Switch>
+          <Suspense fallback={<div></div>}>
+            {
+              login === true ? (
+                <PrivateRoute path='/' component={DashboardRouting} />
+              ) : login === false ? (
+                <>
+                  <PublicRoute exact path='/login' component={Login} />
+                  <Redirect to="/login" />
+                </>
+              ) : (
+                null
+              )
+            }
+          </Suspense>
+        </Switch>
       </Router>
   );
 }

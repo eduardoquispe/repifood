@@ -1,49 +1,34 @@
 import HeaderPage from "../../components/Layout/HeaderPage";
 import useLoaderTable from "../../hooks/useLoaderTable";
-import {
-  Grid,
-  GridColumn as Column
-} from "@progress/kendo-react-grid";
-import { Button, Dropdown, Label, Modal } from "semantic-ui-react";
+import { Button, Input, Modal } from "semantic-ui-react";
 import { FaPlus } from "react-icons/fa";
 import BusquedaCliente from "../../components/Clientes/BusquedaCliente";
-import { useState } from "react";
-import { Confirm } from "notiflix";
-import useDimensionTable from "../../hooks/useDimensionTable";
+import React, { useState } from "react";
+import { Confirm, Loading } from "notiflix";
 import ModalOperadores from "../../components/Operador/ModalOperadores";
 import { useDispatch } from "react-redux";
-import { deleteOperador, getOperadorById, updateEstadoOperador } from "../../actions/operadorActions";
-import { ST_ACTIVO, ST_INACTIVO } from "../../config/constants";
+import { deleteOperador, getDataEditarOperador, getPerfiles } from "../../actions/operadorActions";
+import TableOperadores from './TableOperadores';
+import useDimensionTable from '../../hooks/useDimensionTable';
 
 const Operadores = () => {
 
-  const { dataResul, dataState, dataStateChange, requestDataIfNeeded } = useLoaderTable({ url: 'empleado' });
   const dispatch = useDispatch();
+  const { dataResul, dataState, dataStateChange, handleCustomSearch, requestDataIfNeeded } = useLoaderTable({ url: 'empleado' });
   const [editarOperador, setEditarOperador] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const { height: heightGrid } = useDimensionTable();
+  useDimensionTable();
 
-  const handleEditar = idEmpleado => {
+  const handleEditar = async idEmpleado => {
     setEditarOperador(true)
-    dispatch(getOperadorById(idEmpleado, setOpenModal));
-  }
 
-  const handleEditarEstado = (idEmpleado, idEstado) => {
-    Confirm.show(
-      'OPERADORES',
-      '¿Desea cambiar el estado del empleado?',
-      'Continuar',
-      'Cancelar',
-      async function() {
-        const res = await dispatch(updateEstadoOperador(idEmpleado, idEstado));
-        
-        if(res) {
+    Loading.pulse();
+    const res = await dispatch(getDataEditarOperador(idEmpleado));
+    if(res) {
+      setOpenModal(true);
+    }
+    Loading.remove();
 
-        } else {
-
-        }
-      }
-    );
   }
 
   const handleEliminar = (idOperador) => {
@@ -68,97 +53,36 @@ const Operadores = () => {
           </div>
         </div>
         <div className="item ui colhidden">
-            <Button icon onClick={() => {
-                setEditarOperador(false); 
-                setOpenModal(true);
-            }}>
-              <FaPlus /> Nuevo operador
-            </Button>
+          <Button icon onClick={async () => {
+              setEditarOperador(false);
+              Loading.pulse();
+              await dispatch(getPerfiles());
+              setOpenModal(true);              
+              Loading.remove();
+          }}>
+            <FaPlus /> Nuevo operador
+          </Button>
+        </div>
+        <div className="right menu colhidden">
+          <div className="item ui colhidden">
+              <Input 
+                icon='search'
+                onKeyDown={handleCustomSearch} 
+                placeholder='Buscar operador...'
+              />
           </div>
-          <div className="right menu colhidden">
-            <div className="item ui colhidden">
-              <BusquedaCliente />
-            </div>
-          </div>
+        </div>
       </HeaderPage>
       <div className="Operadores__body app__container_body">
         <div className="Operadores__tabla">
-          <Grid
-              sortable={true}
-              pageable={true}
-              style={{ height: heightGrid }}
-              {...dataState}
-              {...dataResul}
-              onDataStateChange={dataStateChange}
-              className="grid"
-            >
-              <Column
-                width={50}
-                cell={({ dataItem }) => (
-                  <td style={{overflow: "inherit"}}>
-                    <Dropdown
-                      icon='ellipsis vertical'
-                      floating
-                      button
-                      className='icon circular compact ui left pointing'
-                    >
-                      <Dropdown.Menu>
-                        <Dropdown.Item
-                          icon="edit"
-                          className="blue"
-                          text='Editar'
-                          onClick={() => handleEditar(dataItem.idEmpleado)}
-                        />
-                        <Dropdown.Item
-                          icon="delete"
-                          className="red"
-                          text='Eliminar'
-                          onClick={() => handleEliminar(dataItem.idEmpleado)}
-                        />
-                        {
-                          parseInt(dataItem.idTipoEstado) === ST_ACTIVO ? (
-                            <Dropdown.Item 
-                              icon="lock"
-                              text='Inactivar'
-                              onClick={() => handleEditarEstado(dataItem.idEmpleado, ST_INACTIVO)}
-                            />
-                          ) : (
-                            <Dropdown.Item 
-                              icon="unlock"
-                              text='Activar'
-                              onClick={() => handleEditarEstado(dataItem.idEmpleado, ST_ACTIVO)}
-                            />
-                          )
-                        }
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </td>
-                )}
-              />
-              <Column
-                width={50}
-                title='ID'
-                field="idEmpleado"
-              />
-              <Column field="nombres" title="NOMBRES" />
-              <Column field="apellidos" title="APELLIDOS" />
-              <Column field="email" title="EMAIL" />
-              <Column field="celular" title="CELULAR" />
-              <Column 
-                title="ESTADO"
-                cell={({ dataItem }) => (
-                  <td>
-                    {
-                        parseInt(dataItem.idTipoEstado) === ST_ACTIVO ? (
-                          <Label color="green" size="tiny">{dataItem['tipoEstado ']}</Label>
-                      ) : (
-                        <Label color="red" size="tiny">{dataItem['tipoEstado '] }</Label>
-                      )
-                    }
-                  </td>
-                )}
-              />
-            </Grid>
+          <TableOperadores 
+            dataStateChange={dataStateChange}
+            dataState={dataState}
+            dataResul={dataResul}
+            handleEditar={handleEditar}
+            handleEliminar={handleEliminar}
+            requestDataIfNeeded={requestDataIfNeeded}
+          />
         </div>
       </div>
       <Modal open={openModal}>

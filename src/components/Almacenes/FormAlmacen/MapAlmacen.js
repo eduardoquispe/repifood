@@ -5,11 +5,10 @@ import { EditControl } from "react-leaflet-draw";
 
 const MapAlamacen = ({ addGeozonas, positions }) => {
 
-  const position = [51.505, -0.09]
+  const position = [-14.0639, -75.7292]
 
   const handleCreate = e => {
-    // console.log(e)
-
+    
     const { layerType, layer } = e;
 
     if(layerType === 'polygon') {
@@ -42,7 +41,7 @@ const MapAlamacen = ({ addGeozonas, positions }) => {
 
 
   return ( 
-    <MapContainer style={{ width: "100%", height: 300 }} center={position} zoom={13} scrollWheelZoom={false}>
+    <MapContainer style={{ width: "100%", height: 400, zIndex: 1 }} center={position} zoom={14} scrollWheelZoom={false}>
       <FeatureGroup>
         <EditControl
           position="topright"

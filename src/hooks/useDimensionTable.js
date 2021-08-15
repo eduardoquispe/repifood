@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const useDimensionTable = () => {
 
-  const [windowSize, setWindowSize] = useState({
+  const [windowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight
   });
@@ -27,11 +27,13 @@ const useDimensionTable = () => {
       // var diff = gridElement.clientHeight - dataArea.clientHeight;
       //gridElement.height(newHeight);
       // dataArea.style.height = (newHeight - diff) + 'px';
-
-      setWindowSize({
-        width: window.innerWidth,
-        height: newHeight
-      })
+      if (gridElement) {
+        gridElement.style.height = `${newHeight}px`; 
+      }
+      // setWindowSize({
+      //   width: window.innerWidth,
+      //   height: newHeight
+      // })
   
     }
   
